@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
+  <meta
+    name="description"
+    content="Jogo da Memória Academia Unicórnio — uma aventura de fantasia, intrigas e amizade."
+  />
+  <meta name="theme-color" content="#090611" />
+  <title>Academia Unicórnio — Jogo da Memória</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <!-- Campo de estrelas -->
+  <div id="starField" class="star-field" aria-hidden="true"></div>
+
+  <main class="app">
+    <!-- =========================================================
+         TELA INICIAL
+    ========================================================== -->
+    <section
+      id="startScreen"
+      class="screen start-screen"
+      aria-labelledby="mainTitle"
+    >
+      <div class="start-panel">
+        <div class="start-copy">
+          <p class="eyebrow">JOGO DA MEMÓRIA</p>
+
+          <h1 id="mainTitle">
+            <span>ACADEMIA</span>
+            <strong>UNICÓRNIO</strong>
+          </h1>
+
+          <p class="subtitle">
+            Uma aventura de fantasia, intrigas e amizade
+          </p>
+
+          <div class="intro-box">
+            <p>
+              Encontre os dez pares e percorra um universo encantado de
+              unicórnios, jovens aprendizes, mistérios e laços de amizade.
+              Abra duas cartas por vez, exercite a memória e descubra cenas
+              mágicas cheias de cor, aventura e fantasia.
+            </p>
+          </div>
+
+          <div class="stats-grid" aria-label="Informações do jogo">
+            <article>
+              <strong>20</strong>
+              <span>cartas</span>
+            </article>
+
+            <article>
+              <strong>10</strong>
+              <span>pares</span>
+            </article>
+
+            <article>
+              <strong>1</strong>
+              <span>aventura</span>
+            </article>
+          </div>
+
+          <div class="start-actions">
+            <button
+              id="startButton"
+              class="button button-primary"
+              type="button"
+              disabled
+            >
+              INICIAR AVENTURA
+            </button>
+          </div>
+        </div>
+
+        <div class="preview-panel">
+          <div class="preview-heading">
+            <span class="preview-dot"></span>
+            <p>PRÉVIA DAS CARTAS</p>
+          </div>
+
+          <div
+            id="previewStack"
+            class="preview-stack"
+            aria-live="polite"
+          >
+            <figure class="preview-card preview-left">
+              <img id="previewImage1" alt="" width="960" height="540" />
+            </figure>
+
+            <figure class="preview-card preview-center">
+              <img id="previewImage2" alt="" width="960" height="540" />
+            </figure>
+
+            <figure class="preview-card preview-right">
+              <img id="previewImage3" alt="" width="960" height="540" />
+            </figure>
+
+            <div class="preview-caption">
+              <span aria-hidden="true">✦</span>
+              <p>Fantasia, amizade e mistério</p>
+            </div>
+          </div>
+
+          <div
+            id="loadingPanel"
+            class="loading-panel"
+            aria-live="polite"
+          >
+            <div class="loading-header">
+              <span id="loadingMessage">Preparando as imagens...</span>
+              <strong id="loadingPercent">0%</strong>
+            </div>
+
+            <div
+              id="loadingTrack"
+              class="loading-track"
+              role="progressbar"
+              aria-label="Carregamento das imagens"
+              aria-valuemin="0"
+              aria-valuemax="21"
+              aria-valuenow="0"
+            >
+              <span id="loadingBar"></span>
+            </div>
+
+            <p id="loadingCounter">0 de 21 recursos preparados</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         TELA DO JOGO
+    ========================================================== -->
+    <section
+      id="gameScreen"
+      class="screen game-screen"
+      aria-labelledby="gameTitle"
+      aria-hidden="true"
+      hidden
+    >
+      <header class="game-header">
+        <div>
+          <p class="eyebrow">ACADEMIA UNICÓRNIO</p>
+          <h2 id="gameTitle">ENCONTRE OS DEZ PARES</h2>
+        </div>
+
+        <div class="header-actions">
+          <button
+            id="restartButton"
+            class="button button-secondary"
+            type="button"
+          >
+            REINICIAR
+          </button>
+
+          <button
+            id="homeButton"
+            class="button button-secondary"
+            type="button"
+          >
+            TELA INICIAL
+          </button>
+        </div>
+      </header>
+
+      <section
+        class="status-grid"
+        aria-label="Informações da partida"
+      >
+        <article>
+          <span>Jogadas</span>
+          <strong id="movesCounter">0</strong>
+        </article>
+
+        <article>
+          <span>Tempo</span>
+          <strong id="timer">00:00</strong>
+        </article>
+
+        <article>
+          <span>Pares</span>
+          <strong><span id="pairsCounter">0</span>/10</strong>
+        </article>
+
+        <article class="progress-card">
+          <span>Progresso</span>
+          <div
+            id="progressTrack"
+            class="progress-track"
+            role="progressbar"
+            aria-label="Progresso da partida"
+            aria-valuemin="0"
+            aria-valuemax="10"
+            aria-valuenow="0"
+          >
+            <span id="progressBar"></span>
+          </div>
+        </article>
+      </section>
+
+      <p
+        id="instruction"
+        class="instruction"
+        aria-live="polite"
+      >
+        Abra duas cartas e encontre duas imagens iguais.
+      </p>
+
+      <section
+        id="memoryGrid"
+        class="memory-grid"
+        aria-label="Tabuleiro do jogo da memória"
+      ></section>
+
+      <section
+        id="finishPanel"
+        class="finish-panel"
+        hidden
+      >
+        <div>
+          <p class="eyebrow">AVENTURA CONCLUÍDA</p>
+          <h3>Todos os pares foram encontrados!</h3>
+          <p id="finishSummary">
+            Você completou o desafio na Academia Unicórnio.
+          </p>
+        </div>
+
+        <div class="finish-actions">
+          <button
+            id="playAgainButton"
+            class="button button-primary"
+            type="button"
+          >
+            JOGAR NOVAMENTE
+          </button>
+
+          <button
+            id="finishHomeButton"
+            class="button button-secondary"
+            type="button"
+          >
+            TELA INICIAL
+          </button>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <p id="liveRegion" class="sr-only" aria-live="polite"></p>
+
+  <script src="./script.js"></script>
+</body>
+</html>
